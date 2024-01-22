@@ -4,12 +4,12 @@ import Card from '../UI/Card';
 import Button from '../UI/Button';
 import ErrorModal from '../UI/ErrorModal';
 import classes from './AddUser.module.css';
-
+import Wrapper from '../Helpers/Wrapper';
 const AddUser = (props) => {
   const [enteredUsername, setEnteredUsername] = useState('');
   const [enteredAge, setEnteredAge] = useState('');
   const [error, setError] = useState();
-
+  const [enteredCollege,setEnteredCollege]=useState('');
   const addUserHandler = (event) => {
     event.preventDefault();
     if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
@@ -26,9 +26,10 @@ const AddUser = (props) => {
       });
       return;
     }
-    props.onAddUser(enteredUsername, enteredAge);
+    props.onAddUser(enteredUsername, enteredAge,enteredCollege);
     setEnteredUsername('');
     setEnteredAge('');
+    setEnteredCollege('');
   };
 
   const usernameChangeHandler = (event) => {
@@ -38,13 +39,15 @@ const AddUser = (props) => {
   const ageChangeHandler = (event) => {
     setEnteredAge(event.target.value);
   };
-
+  const CollegeHandler = (event) =>{
+    setEnteredCollege(event.target.value);
+  }
   const errorHandler = () => {
     setError(null);
   };
 
   return (
-    <div>
+    <Wrapper>
       {error && (
         <ErrorModal
           title={error.title}
@@ -68,10 +71,17 @@ const AddUser = (props) => {
             value={enteredAge}
             onChange={ageChangeHandler}
           />
+          <label htmlFor="college">College Name:</label>
+          <input
+            id="college"
+            type="text"
+            value={enteredCollege}
+            onChange={CollegeHandler}
+          />
           <Button type="submit">Add User</Button>
         </form>
       </Card>
-    </div>
+    </Wrapper>
   );
 };
 
